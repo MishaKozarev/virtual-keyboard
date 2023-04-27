@@ -19,7 +19,7 @@
 }
 
 .keyboard {
-    width: 100%;
+    width: 731px;
     height: max-content;
     padding: 20px;
     border-radius: 10px;
@@ -31,7 +31,7 @@
     gap: 4px;
 }
 
-.button {
+.key {
     width: 45px;
     height: 45px;
     border-radius: 3px;
@@ -39,5 +39,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgb(70, 70, 207);;
+    color: rgb(70, 70, 207);
+    font-size: 20px;
+    font-weight: 700;
+}
+.key-double{
+    width: 94px;
+
+}
+
+.key-space {
+    width: 339px;
+}
+
+.active {
+    background: rgb(166, 240, 93);
 }
