@@ -52,6 +52,12 @@
     width: 339px;
 }
 
-.active {
-    background: rgb(166, 240, 93);
+@keyframes color-key {
+    from {background-color: rgb(177, 177, 207);;}
+    to {background-color: yellow;}
 }
+.active {
+    animation-name: color-key;
+    animation-duration: .2s;
+}
+
