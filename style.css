@@ -12,10 +12,13 @@
     align-items: center;
 }
 
-.input-screen {
-    width: 750px;
+.display {
+    width: 710px;
     height: 200px;
     margin: 0 0 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
 }
 
 .keyboard {
@@ -31,7 +34,9 @@
     gap: 4px;
 }
 
-.key {
+.key,
+.key-delete,
+.key-shift-right {
     width: 45px;
     height: 45px;
     border-radius: 3px;
@@ -43,13 +48,31 @@
     font-size: 20px;
     font-weight: 700;
 }
-.key-double{
+.key-double {
     width: 94px;
+    height: 45px;
+    border-radius: 3px;
+    background-color: rgb(177, 177, 207);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(70, 70, 207);
+    font-size: 20px;
+    font-weight: 700;
 
 }
 
 .key-space {
     width: 339px;
+    height: 45px;
+    border-radius: 3px;
+    background-color: rgb(177, 177, 207);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(70, 70, 207);
+    font-size: 20px;
+    font-weight: 700;
 }
 
 @keyframes color-key {
@@ -59,5 +82,9 @@
 .active {
     animation-name: color-key;
     animation-duration: .2s;
+}
+
+.active-all {
+    background-color: yellow;
 }
 
