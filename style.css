@@ -36,7 +36,9 @@
 
 .key,
 .key-delete,
-.key-shift-right {
+.key-shift-right,
+.key-alt,
+.key-сontrol {
     width: 45px;
     height: 45px;
     border-radius: 3px;

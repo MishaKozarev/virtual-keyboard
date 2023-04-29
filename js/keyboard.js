@@ -44,8 +44,8 @@ const KEYBOARD = `
       <div id='37' class="key press" data-key="KeyL"></div>
       <div id='38' class="key press" data-key="Semicolon"></div>
       <div id='39' class="key press" data-key="Quote"></div>
-      <div id='40' class="key-double press ket-enter" data-key="Enter"></div>
-      <div id='41' class="key-double press key-shift" data-key="ShiftLeft"></div>
+      <div id='40' class="key-double press key-enter" data-key="Enter"></div>
+      <div id='41' class="key-double press key-shift key-shift-left" data-key="ShiftLeft"></div>
       <div id='42' class="key press" data-key="KeyZ"></div>
       <div id='43' class="key press" data-key="KeyX"></div>
       <div id='44' class="key press" data-key="KeyC"></div>
@@ -56,15 +56,15 @@ const KEYBOARD = `
       <div id='49' class="key press" data-key="Comma"></div>
       <div id='50' class="key press" data-key="Period"></div>
       <div id='51' class="key press" data-key="Slash"></div>
-      <div id='52' class="press key-shift key-shift-right" data-key="ShiftRight"></div>
+      <div id='52' class="key-shift key-shift-right press" data-key="ShiftRight"></div>
       <div id='53' class="key press" data-key="ArrowUp"></div>
       <div id='54' class="key-delete press" data-key="Delete"></div>
-      <div id='55' class="key press key-сontrol" data-key="ControlLeft"></div>
+      <div id='55' class="key-сontrol press" data-key="ControlLeft"></div>
       <div id='56' class="key press" data-key="Win"></div>
-      <div id='57' class="key press key-alt" data-key="AltLeft"></div>
+      <div id='57' class="key-alt press" data-key="AltLeft"></div>
       <div id='58' class="key-space press" data-key="Space"></div>
-      <div id='59' class="key press key-alt" data-key="AltRight"></div>
-      <div id='60' class="key press key-сontrol" data-key="ControlRight"></div>
+      <div id='59' class="key-alt press" data-key="AltRight"></div>
+      <div id='60' class="key-сontrol press" data-key="ControlRight"></div>
       <div id='61' class="key press" data-key="ArrowLeft"></div>
       <div id='62' class="key press" data-key="ArrowDown"></div>
       <div id='63' class="key press" data-key="ArrowRight"></div>
