@@ -27,17 +27,15 @@ const LAYOT_RU_CAPSLOCK = LAYOT_RU.capsLock.split(' ');
 const LAYOT_RU_SHIFT = LAYOT_RU.shift.split(' ');
 const LAYOT_RU_CAPSLOCK_SHIFT = LAYOT_RU.capsLockAndShift.split(' ');
 
-
 let lang = 'en';
 let flag = false;
 let count = [];
-let layot = 'en-normal'
 let caps = false;
 let shift = false;
+let current;
+let inner;
 
-DISPLEY.focus = () => {
-  DISPLEY.selectionStart = DISPLEY.selectionEnd;
-}
+DISPLEY.focus();
 
 // Добавить раскладку
 function addLayot(layot) {
@@ -52,124 +50,199 @@ function init() {
 }
 init();
 
-
-
-// Ввод с клавиатуры
-document.onkeydown = function (event) {
-  event.preventDefault();
-  if (event.code === "Delete" || event.code === "Backspace") {
-    count.pop();
-    DISPLEY.value = count.join('');
-  }
-  else if(event.code === "Space") {
-    count.push(' ');
-    DISPLEY.value = count.join('');
-  }
-  else{
-    let current = document.querySelector(`.press[data-key="${event.code}"]`)
-    current.classList.add('active');
-    setTimeout(() => current.classList.remove('active'), 300);
-      if(lang === 'en') {
-        let inner = LAYOT_EN_NORMAL[current.id]
-        DISPLEY.value += inner
-        count = DISPLEY.value.split('');
-      }else if(lang === 'ru') {
-        let inner = LAYOT_RU_NORMAL[current.id]
-        DISPLEY.value += inner
-        count = DISPLEY.value.split('');
-      }
+window.onkeydown = function (event) {
+  current = document.querySelector(`.press[data-key="${event.code}"]`)
+  if(current = true) {
+    event.preventDefault();
+  }else{
+    return true;
   }
 }
 
-// document.onkeydown = function (event) {
-//   if (event.code === 'Delete') {
-//     event.stopPropagation();
-//     count.pop();
-//     DISPLEY.value = count.join('');
-//   }
-// }
-
-
-// Смена языка клавиатурой
-window.onkeydown = function (e) {
-  if (lang === 'en') {
-    if (e.code === 'ShiftLeft') flag = true;
-    if (e.code === 'AltLeft' && flag) {
-      addLayot(LAYOT_RU_NORMAL);
-      flag = false;
-      lang = 'ru';
+// Ввод с клавиатуры
+window.onkeydown = function (event) {
+  console.log(event.code)
+  console.log(caps)
+  current = document.querySelector(`.press[data-key="${event.code}"]`)
+  current.classList.add('active');
+  setTimeout(() => current.classList.remove('active'), 300);
+  if(event.code === 'Delete') {
+    DISPLEY.value += '';
+    count.pop();
+    DISPLEY.value = count.join('');
+  }
+  else if(event.code === 'Backspace') {
+    DISPLEY.value += '';
+    count.pop();
+    DISPLEY.value = count.join('');
+  }
+  else if(event.code === 'Enter') {
+    DISPLEY.value += '\n';
+    count = DISPLEY.value.split('');
+    DISPLEY.value = count.join('');
+  }
+  else if(event.code === 'Tab') {
+    DISPLEY.value += '\t';
+    count = DISPLEY.value.split('');
+    DISPLEY.value = count.join('');
+  }
+  else if(event.code === 'Space') {
+    DISPLEY.value += ' ';
+    count = DISPLEY.value.split('');
+    DISPLEY.value = count.join('');
+  }
+  else if(event.code === 'CapsLock') {
+    if(lang === 'en') {
+      if(caps === false) {
+        KEY_CAPS.classList.add('active-all')
+        addLayot(LAYOT_EN_CAPSLOCK);
+        caps = true;
+      }else{
+        KEY_CAPS.classList.remove('active-all')
+        addLayot(LAYOT_EN_NORMAL);
+        caps = false;
+      }
+    }else{
+      if(caps === false) {
+        KEY_CAPS.classList.add('active-all')
+        addLayot(LAYOT_RU_CAPSLOCK);
+        caps = true;
+      }else{
+        KEY_CAPS.classList.remove('active-all')
+        addLayot(LAYOT_RU_NORMAL);
+        caps = false;
+      }
     }
-  } else {
-    if (e.code === 'ShiftLeft') flag = true;
-    if (e.code === 'AltLeft' && flag) {
-      addLayot(LAYOT_EN_NORMAL);
-      flag = false;
-      lang = 'en';
+    DISPLEY.value += '';
+    count = DISPLEY.value.split('');
+    DISPLEY.value = count.join('');
+  }
+  else if(event.key === 'Shift') {
+    if(lang === 'en') {
+      addLayot(LAYOT_EN_SHIFT);
+    }else{
+      addLayot(LAYOT_RU_SHIFT);
+    }
+    DISPLEY.value += '';
+    count = DISPLEY.value.split('');
+    DISPLEY.value = count.join('');
+    shift = true;
+  }
+  else if(event.code === 'AltLeft') {
+    if(lang === 'en') {
+      if(shift === true) {
+        if(caps === true) {
+          addLayot(LAYOT_RU_CAPSLOCK);
+          lang = 'ru'
+        }else{
+          addLayot(LAYOT_RU_NORMAL);
+          lang = 'ru'
+        }
+      }else{
+        addLayot(LAYOT_EN_NORMAL);
+        lang = 'en'
+      }
+    }else{
+      if(shift === true) {
+        addLayot(LAYOT_EN_NORMAL);
+        lang = 'en'
+      }else{
+        addLayot(LAYOT_RU_NORMAL);
+        lang = 'ru'
+      }
+    }
+    DISPLEY.value += '';
+    count = DISPLEY.value.split('');
+    DISPLEY.value = count.join('');
+  }
+  else if(event.key === 'Control'){
+  DISPLEY.value += '';
+  count = DISPLEY.value.split('');
+  DISPLEY.value = count.join('');
+  }
+  else if(event.code === 'MetaLeft'){
+  DISPLEY.value += '';
+  count = DISPLEY.value.split('');
+  DISPLEY.value = count.join('');
+  }
+  else{
+    if(lang === 'en') {
+      if(caps === true) {
+        if(shift === true) {
+          addLayot(LAYOT_EN_CAPSLOCK_SHIFT);
+          inner = LAYOT_EN_CAPSLOCK_SHIFT[current.id];
+          DISPLEY.value += inner;
+        }else{
+          addLayot(LAYOT_EN_CAPSLOCK);
+          inner = LAYOT_EN_CAPSLOCK[current.id];
+          DISPLEY.value += inner;
+        }
+      }else{
+        if(shift === true) {
+          addLayot(LAYOT_EN_SHIFT);
+          inner = LAYOT_EN_SHIFT[current.id];
+          DISPLEY.value += inner;
+          count = DISPLEY.value.split('');
+        }else{
+          addLayot(LAYOT_EN_NORMAL);
+          inner = LAYOT_EN_NORMAL[current.id];
+          DISPLEY.value += inner;
+          count = DISPLEY.value.split('');
+        }
+      }
+    }else if(lang === 'ru') {
+      if(caps === true) {
+        if(shift === true) {
+          addLayot(LAYOT_RU_CAPSLOCK_SHIFT);
+          inner = LAYOT_RU_CAPSLOCK_SHIFT[current.id];
+          DISPLEY.value += inner;
+        }else{
+          addLayot(LAYOT_RU_CAPSLOCK);
+          inner = LAYOT_RU_CAPSLOCK[current.id];
+          DISPLEY.value += inner;
+        }
+      }else{
+        if(shift === true) {
+          addLayot(LAYOT_RU_NORMAL);
+          inner = LAYOT_RU_SHIFT[current.id];
+          DISPLEY.value += inner;
+          count = DISPLEY.value.split('');
+        }else{
+          addLayot(LAYOT_RU_SHIFT);
+          inner = LAYOT_RU_NORMAL[current.id];
+          DISPLEY.value += inner;
+          count = DISPLEY.value.split('');
+        }
+      }
     }
   }
-};
 
-// CapsLock клавиатурой
-window.addEventListener('keyup', (event) => {
-  if (lang === 'en') {
-    if (event.getModifierState('CapsLock')) {
-      addLayot(LAYOT_EN_CAPSLOCK);
-      caps = true;
-      KEY_CAPS.classList.add('active-all')
-    } else {
-      addLayot(LAYOT_EN_NORMAL);
-      caps = false;
-      KEY_CAPS.classList.remove('active-all')
+}
+
+document.onkeyup = function(event) {
+  if(event.key === 'Shift') {
+    if(lang === 'en') {
+      if(caps === true) {
+        addLayot(LAYOT_EN_CAPSLOCK);
+      }else{
+        addLayot(LAYOT_EN_NORMAL);
+      }
+    }else{
+      if(caps === true) {
+        addLayot(LAYOT_RU_CAPSLOCK);
+      }else{
+        addLayot(LAYOT_RU_NORMAL);
+      }
     }
-  } else if (event.getModifierState('CapsLock')) {
-    addLayot(LAYOT_RU_CAPSLOCK);
-    caps = true;
-    KEY_CAPS.classList.add('active-all')
-  } else {
-    addLayot(LAYOT_RU_NORMAL);
-    caps = false;
-    KEY_CAPS.classList.remove('active-all')
+    shift = false;
+    DISPLEY.value += '';
+    count = DISPLEY.value.split('');
+    DISPLEY.value = count.join('');
   }
-});
+}
 
 
-// // Shift клавиатурой
-// window.onkeydown = function (event) {
-//     if (lang === 'en') {
-//       if (event.code === 'ShiftLeft') {
-//         addLayot(LAYOT_EN_SHIFT);
-//       } else {
-//         addLayot(LAYOT_EN_NORMAL);
-//       }
-//     }else{
-//       if (event.code === 'ShiftLeft') {
-//         addLayot(LAYOT_RU_SHIFT);
-//       } else {
-//         addLayot(LAYOT_RU_NORMAL);
-//         }
-//     }
-//   };
-
-
-
-// Shift + CapsLock клавиатурой
-// window.onkeydown = function (event) {
-//     if (lang === 'en') {
-//         if (event.getModifierState('CapsLock')){
-//             if (event.code === 'ShiftLeft') {
-//                 addLayot(LAYOT_EN_CAPSLOCK_SHIFT);
-//             }
-//         }
-//     }else{
-//         if (event.getModifierState('CapsLock')){
-//             if (event.code === 'ShiftLeft') {
-//                 addLayot(LAYOT_RU_CAPSLOCK_SHIFT);
-//             }
-//         }
-//     }
-// }
-
-
+//-------------------ВИРТУАЛЬНАЯ КЛАВИАТУРА
 function pressKeysKeyboard() {
   KEYS.forEach((element) => {
     element.addEventListener('click', ()=> {
@@ -393,4 +466,6 @@ pressKeyShiftKeyboard();
 function pressEffect(element) {
   element.classList.add('active');
   setTimeout(() => element.classList.remove('active'), 300);
-}
+};
+
+
