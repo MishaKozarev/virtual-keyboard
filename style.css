@@ -18,7 +18,7 @@
     margin: 0 0 20px 0;
     padding: 20px;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 23px;
 }
 
 .keyboard {
@@ -34,11 +34,16 @@
     gap: 4px;
 }
 
+.text {
+    margin: 10px;
+    padding: 0
+}
 .key,
 .key-delete,
 .key-shift-right,
 .key-alt,
-.key-сontrol {
+.key-сontrol,
+.key-win {
     width: 45px;
     height: 45px;
     border-radius: 3px;
@@ -50,6 +55,7 @@
     font-size: 20px;
     font-weight: 700;
 }
+
 .key-double {
     width: 94px;
     height: 45px;
@@ -61,7 +67,6 @@
     color: rgb(70, 70, 207);
     font-size: 20px;
     font-weight: 700;
-
 }
 
 .key-space {
@@ -78,7 +83,7 @@
 }
 
 @keyframes color-key {
-    from {background-color: rgb(177, 177, 207);;}
+    from {background-color: rgb(177, 177, 207);}
     to {background-color: yellow;}
 }
 .active {

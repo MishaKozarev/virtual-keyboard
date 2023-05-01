@@ -2,6 +2,8 @@ const KEYBOARD = `
 <div class="wrapper">
   <label for="display">Virtual Keyboard:</label>
   <textarea class = "display" id = "display" name = "display"></textarea>
+  <p class="text">Клавиатура сделана в системе Windows 10</p>
+  <p class="text">Переключение языка: shift + alt</p>
   <div class="keyboard">
     <div class="keyboard__row">
       <div id='0' class="key press" data-key="Backquote"></div>
@@ -60,7 +62,7 @@ const KEYBOARD = `
       <div id='53' class="key press" data-key="ArrowUp"></div>
       <div id='54' class="key-delete press" data-key="Delete"></div>
       <div id='55' class="key-сontrol press" data-key="ControlLeft"></div>
-      <div id='56' class="key press" data-key="MetaLeft"></div>
+      <div id='56' class="key-win press" data-key="MetaLeft"></div>
       <div id='57' class="key-alt press" data-key="AltLeft"></div>
       <div id='58' class="key-space press" data-key="Space"></div>
       <div id='59' class="key-alt press" data-key="AltRight"></div>
