@@ -27,15 +27,16 @@ const LAYOT_RU_CAPSLOCK = LAYOT_RU.capsLock.split(' ');
 const LAYOT_RU_SHIFT = LAYOT_RU.shift.split(' ');
 const LAYOT_RU_CAPSLOCK_SHIFT = LAYOT_RU.capsLockAndShift.split(' ');
 
-let lang = 'en';
+let lang = localStorage.getItem('lang');
+// let lang = 'en';
 let flag = false;
 let count = [];
 let caps = false;
 let shift = false;
 let current;
 let inner;
-
 DISPLEY.focus();
+
 
 // Добавить раскладку
 function addLayot(layot) {
@@ -43,12 +44,20 @@ function addLayot(layot) {
     keyboardRow.children[i].innerHTML = layot[i];
   }
 }
-
 // Инициализация
 function init() {
-  addLayot(LAYOT_EN_NORMAL);
+  if(lang === 'en') {
+    addLayot(LAYOT_EN_NORMAL);
+  }else{
+    addLayot(LAYOT_RU_NORMAL);
+  }
 }
 init();
+
+document.onload = function() {
+  console.log(lang)
+  lang = localStorage.getItem('lang');
+}
 
 window.onkeydown = function (event) {
   current = document.querySelector(`.press[data-key="${event.code}"]`)
@@ -61,8 +70,7 @@ window.onkeydown = function (event) {
 
 // Ввод с клавиатуры
 window.onkeydown = function (event) {
-  console.log(event.code)
-  console.log(caps)
+  console.log(lang)
   current = document.querySelector(`.press[data-key="${event.code}"]`)
   current.classList.add('active');
   setTimeout(() => current.classList.remove('active'), 300);
@@ -128,26 +136,31 @@ window.onkeydown = function (event) {
     DISPLEY.value = count.join('');
     shift = true;
   }
-  else if(event.code === 'AltLeft') {
+  else if(event.key === 'Alt') {
     if(lang === 'en') {
       if(shift === true) {
         if(caps === true) {
           addLayot(LAYOT_RU_CAPSLOCK);
+          lang = localStorage.setItem('lang', 'ru');
           lang = 'ru'
         }else{
+          lang = localStorage.setItem('lang', 'ru');
           addLayot(LAYOT_RU_NORMAL);
           lang = 'ru'
         }
       }else{
         addLayot(LAYOT_EN_NORMAL);
+        lang = localStorage.setItem('lang', 'en');
         lang = 'en'
       }
     }else{
       if(shift === true) {
+        lang = localStorage.setItem('lang', 'en');
         addLayot(LAYOT_EN_NORMAL);
         lang = 'en'
       }else{
         addLayot(LAYOT_RU_NORMAL);
+        lang = localStorage.setItem('lang', 'ru');
         lang = 'ru'
       }
     }
@@ -428,9 +441,11 @@ function changeLanguage() {
         if(shift === true) {
           if(caps === true) {
             addLayot(LAYOT_RU_CAPSLOCK_SHIFT);
+            lang = localStorage.setItem('lang', 'ru');
             lang = 'ru'
           }else{
             addLayot(LAYOT_RU_SHIFT);
+            lang = localStorage.setItem('lang', 'ru');
             lang = 'ru'
           }
         }
@@ -438,9 +453,11 @@ function changeLanguage() {
         if(shift === true) {
           if(caps === true) {
             addLayot(LAYOT_EN_CAPSLOCK_SHIFT);
+            lang = localStorage.setItem('lang', 'en');
             lang = 'en'
           }else{
             addLayot(LAYOT_EN_SHIFT);
+            lang = localStorage.setItem('lang', 'en');
             lang = 'en'
           }
         }
