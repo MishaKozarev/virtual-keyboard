@@ -1,5 +1,7 @@
 .body {
-    background-color: rgb(234, 234, 243);
+    /* background-color: rgb(234, 234, 243); */
+    background: url(./assets/Холст.jpg);
+    margin: 0;
 }
 
 .wrapper {
@@ -13,12 +15,14 @@
 }
 
 .display {
-    width: 710px;
+    width: 715px;
     height: 200px;
-    margin: 0 0 20px 0;
+    margin: 0;
     padding: 20px;
     border-radius: 10px;
     font-size: 23px;
+    color: rgb(51, 35, 2);
+    font-family: 'Dancing Script', cursive;
 }
 
 .keyboard {
@@ -26,7 +30,7 @@
     height: max-content;
     padding: 20px;
     border-radius: 10px;
-    background-color: rgb(70, 70, 207);
+    background-color: rgb(92, 64, 3);
 }
 .keyboard__row {
     display: flex;
@@ -46,25 +50,25 @@
 .key-win {
     width: 45px;
     height: 45px;
-    border-radius: 3px;
-    background-color: rgb(177, 177, 207);
+    border-radius: 50%;
+    background-color: rgb(224, 217, 187);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgb(70, 70, 207);
+    color: rgb(92, 64, 3);
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .key-double {
     width: 94px;
     height: 45px;
-    border-radius: 3px;
-    background-color: rgb(177, 177, 207);
+    border-radius: 20px;
+    background-color: rgb(224, 217, 187);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgb(70, 70, 207);
+    color: rgb(92, 64, 3);
     font-size: 20px;
     font-weight: 700;
 }
@@ -72,18 +76,18 @@
 .key-space {
     width: 339px;
     height: 45px;
-    border-radius: 3px;
-    background-color: rgb(177, 177, 207);
+    border-radius: 20px;
+    background-color: rgb(224, 217, 187);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgb(70, 70, 207);
+    color: rgb(92, 64, 3);
     font-size: 20px;
     font-weight: 700;
 }
 
 @keyframes color-key {
-    from {background-color: rgb(177, 177, 207);}
+    from {background-color: rgb(224, 217, 187);}
     to {background-color: yellow;}
 }
 .active {
