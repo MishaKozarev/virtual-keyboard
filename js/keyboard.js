@@ -2,8 +2,6 @@ const KEYBOARD = `
 <div class="wrapper">
   <label for="display">Virtual Keyboard:</label>
   <textarea class = "display" id = "display" name = "display"></textarea>
-  <p class="text">Клавиатура сделана в системе Windows 10</p>
-  <p class="text">Переключение языка: shift + alt</p>
   <div class="keyboard">
     <div class="keyboard__row">
       <div id='0' class="key press" data-key="Backquote"></div>
@@ -72,6 +70,8 @@ const KEYBOARD = `
       <div id='63' class="key press" data-key="ArrowRight"></div>
     </div>
   </div>
+  <p class="text">Клавиатура сделана в системе Windows 10</p>
+  <p class="text">Переключение языка: shift + alt</p>
 </div>
 `;
 export default KEYBOARD;
