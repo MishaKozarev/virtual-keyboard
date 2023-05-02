@@ -1,6 +1,7 @@
 import KEYBOARD from './js/keyboard.js';
 import LAYOT_EN from './js/layot-en.js';
 import LAYOT_RU from './js/layot-ru.js';
+import EVENT_CODE from './js/event-code.js';
 
 const body = document.querySelector('.body');
 body.insertAdjacentHTML('afterbegin', KEYBOARD);
@@ -27,6 +28,7 @@ const LAYOT_RU_NORMAL = LAYOT_RU.normal.split(' ');
 const LAYOT_RU_CAPSLOCK = LAYOT_RU.capsLock.split(' ');
 const LAYOT_RU_SHIFT = LAYOT_RU.shift.split(' ');
 const LAYOT_RU_CAPSLOCK_SHIFT = LAYOT_RU.capsLockAndShift.split(' ');
+const CODE = EVENT_CODE.split(' ');
 
 let lang = localStorage.getItem('lang');
 let caps = false;
@@ -91,132 +93,128 @@ function backspaceText(textarea) {
 }
 
 window.addEventListener('keydown', (event) => {
-  current = document.querySelector(`.press[data-key="${event.code}"]`);
-  if (current === true) {
+  if (CODE.indexOf(event.code) !== -1) {
     event.preventDefault();
-  } else {
-    return true;
-  }
-  return event;
-});
-
-// Ввод с клавиатуры
-window.addEventListener('keydown', (event) => {
-  TEXTAREA.focus();
-  event.preventDefault();
-  current = document.querySelector(`.press[data-key="${event.code}"]`);
-  current.classList.add('active');
-  setTimeout(() => current.classList.remove('active'), 300);
-  if (event.code === 'Delete') {
-    deleteText(TEXTAREA);
-  } else if (event.code === 'Backspace') {
-    backspaceText(TEXTAREA);
-  } else if (event.code === 'Enter') {
-    insertText(TEXTAREA, '\n');
-  } else if (event.code === 'Tab') {
-    insertText(TEXTAREA, '\t');
-  } else if (event.code === 'Space') {
-    insertText(TEXTAREA, ' ');
-  } else if (event.code === 'CapsLock') {
-    if (lang === 'en') {
-      if (caps === false) {
+    TEXTAREA.focus();
+    current = document.querySelector(`.press[data-key="${event.code}"]`);
+    current.classList.add('active');
+    setTimeout(() => current.classList.remove('active'), 300);
+    if (event.code === 'Delete') {
+      deleteText(TEXTAREA);
+    } else if (event.code === 'Backspace') {
+      backspaceText(TEXTAREA);
+    } else if (event.code === 'Enter') {
+      insertText(TEXTAREA, '\n');
+    } else if (event.code === 'Tab') {
+      insertText(TEXTAREA, '\t');
+    } else if (event.code === 'Space') {
+      insertText(TEXTAREA, ' ');
+    } else if (event.code === 'CapsLock') {
+      if (lang === 'en') {
+        if (caps === false) {
+          KEY_CAPS.classList.add('active-all');
+          addLayot(LAYOT_EN_CAPSLOCK);
+          caps = true;
+        } else {
+          KEY_CAPS.classList.remove('active-all');
+          addLayot(LAYOT_EN_NORMAL);
+          caps = false;
+        }
+      } else if (caps === false) {
         KEY_CAPS.classList.add('active-all');
-        addLayot(LAYOT_EN_CAPSLOCK);
+        addLayot(LAYOT_RU_CAPSLOCK);
         caps = true;
       } else {
         KEY_CAPS.classList.remove('active-all');
-        addLayot(LAYOT_EN_NORMAL);
+        addLayot(LAYOT_RU_NORMAL);
         caps = false;
       }
-    } else if (caps === false) {
-      KEY_CAPS.classList.add('active-all');
-      addLayot(LAYOT_RU_CAPSLOCK);
-      caps = true;
-    } else {
-      KEY_CAPS.classList.remove('active-all');
-      addLayot(LAYOT_RU_NORMAL);
-      caps = false;
-    }
-    insertText(TEXTAREA, '');
-  } else if (event.key === 'Shift') {
-    if (lang === 'en') {
-      addLayot(LAYOT_EN_SHIFT);
-    } else {
-      addLayot(LAYOT_RU_SHIFT);
-    }
-    insertText(TEXTAREA, '\n');
-    shift = true;
-  } else if (event.key === 'Alt') {
-    if (lang === 'en') {
-      if (shift === true) {
-        if (caps === true) {
-          addLayot(LAYOT_RU_CAPSLOCK);
-          lang = localStorage.setItem('lang', 'ru');
-          lang = 'ru';
+      insertText(TEXTAREA, '');
+    } else if (event.key === 'Shift') {
+      if (lang === 'en') {
+        addLayot(LAYOT_EN_SHIFT);
+      } else {
+        addLayot(LAYOT_RU_SHIFT);
+      }
+      insertText(TEXTAREA, '\n');
+      shift = true;
+    } else if (event.key === 'Alt') {
+      if (lang === 'en') {
+        if (shift === true) {
+          if (caps === true) {
+            addLayot(LAYOT_RU_CAPSLOCK);
+            lang = localStorage.setItem('lang', 'ru');
+            lang = 'ru';
+          } else {
+            lang = localStorage.setItem('lang', 'ru');
+            addLayot(LAYOT_RU_NORMAL);
+            lang = 'ru';
+          }
         } else {
-          lang = localStorage.setItem('lang', 'ru');
-          addLayot(LAYOT_RU_NORMAL);
-          lang = 'ru';
+          addLayot(LAYOT_EN_NORMAL);
+          lang = localStorage.setItem('lang', 'en');
+          lang = 'en';
         }
+      } else if (shift === true) {
+        lang = localStorage.setItem('lang', 'en');
+        addLayot(LAYOT_EN_NORMAL);
+        lang = 'en';
+      } else {
+        addLayot(LAYOT_RU_NORMAL);
+        lang = localStorage.setItem('lang', 'ru');
+        lang = 'ru';
+      }
+      insertText(TEXTAREA, '\n');
+    } else if (event.key === 'Control') {
+      insertText(TEXTAREA, '\n');
+    } else if (event.code === 'MetaLeft') {
+      insertText(TEXTAREA, '\n');
+    } else if (lang === 'en') {
+      if (caps === true) {
+        if (shift === true) {
+          addLayot(LAYOT_EN_CAPSLOCK_SHIFT);
+          text = LAYOT_EN_CAPSLOCK_SHIFT[current.id];
+          insertText(TEXTAREA, text);
+        } else {
+          addLayot(LAYOT_EN_CAPSLOCK);
+          text = LAYOT_EN_CAPSLOCK[current.id];
+          insertText(TEXTAREA, text);
+        }
+      } else if (shift === true) {
+        addLayot(LAYOT_EN_SHIFT);
+        text = LAYOT_EN_SHIFT[current.id];
+        insertText(TEXTAREA, text);
       } else {
         addLayot(LAYOT_EN_NORMAL);
-        lang = localStorage.setItem('lang', 'en');
-        lang = 'en';
+        text = LAYOT_EN_NORMAL[current.id];
+        insertText(TEXTAREA, text);
       }
-    } else if (shift === true) {
-      lang = localStorage.setItem('lang', 'en');
-      addLayot(LAYOT_EN_NORMAL);
-      lang = 'en';
-    } else {
-      addLayot(LAYOT_RU_NORMAL);
-      lang = localStorage.setItem('lang', 'ru');
-      lang = 'ru';
-    }
-    insertText(TEXTAREA, '\n');
-  } else if (event.key === 'Control') {
-    insertText(TEXTAREA, '\n');
-  } else if (event.code === 'MetaLeft') {
-    insertText(TEXTAREA, '\n');
-  } else if (lang === 'en') {
-    if (caps === true) {
+    } else if (caps === true) {
       if (shift === true) {
-        addLayot(LAYOT_EN_CAPSLOCK_SHIFT);
-        text = LAYOT_EN_CAPSLOCK_SHIFT[current.id];
+        addLayot(LAYOT_RU_CAPSLOCK_SHIFT);
+        text = LAYOT_RU_CAPSLOCK_SHIFT[current.id];
         insertText(TEXTAREA, text);
       } else {
-        addLayot(LAYOT_EN_CAPSLOCK);
-        text = LAYOT_EN_CAPSLOCK[current.id];
+        addLayot(LAYOT_RU_CAPSLOCK);
+        text = LAYOT_RU_CAPSLOCK[current.id];
         insertText(TEXTAREA, text);
       }
     } else if (shift === true) {
-      addLayot(LAYOT_EN_SHIFT);
-      text = LAYOT_EN_SHIFT[current.id];
+      addLayot(LAYOT_RU_SHIFT);
+      text = LAYOT_RU_SHIFT[current.id];
       insertText(TEXTAREA, text);
     } else {
-      addLayot(LAYOT_EN_NORMAL);
-      text = LAYOT_EN_NORMAL[current.id];
+      addLayot(LAYOT_RU_NORMAL);
+      text = LAYOT_RU_NORMAL[current.id];
       insertText(TEXTAREA, text);
     }
-  } else if (caps === true) {
-    if (shift === true) {
-      addLayot(LAYOT_RU_CAPSLOCK_SHIFT);
-      text = LAYOT_RU_CAPSLOCK_SHIFT[current.id];
-      insertText(TEXTAREA, text);
-    } else {
-      addLayot(LAYOT_RU_CAPSLOCK);
-      text = LAYOT_RU_CAPSLOCK[current.id];
-      insertText(TEXTAREA, text);
-    }
-  } else if (shift === true) {
-    addLayot(LAYOT_RU_SHIFT);
-    text = LAYOT_RU_SHIFT[current.id];
-    insertText(TEXTAREA, text);
-  } else {
-    addLayot(LAYOT_RU_NORMAL);
-    text = LAYOT_RU_NORMAL[current.id];
-    insertText(TEXTAREA, text);
   }
 });
+
+// // Ввод с клавиатуры
+// window.addEventListener('keydown', (event) => {
+
+// });
 
 document.addEventListener('keyup', (event) => {
   if (event.key === 'Shift') {
