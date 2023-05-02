@@ -4,7 +4,7 @@ import LAYOT_RU from './js/layot-ru.js';
 
 const body = document.querySelector('.body');
 body.insertAdjacentHTML('afterbegin', KEYBOARD);
-const DISPLEY = document.querySelector('.display');
+const TEXTAREA = document.querySelector('.display');
 const keyboardRow = document.querySelector('.keyboard__row');
 const KEYS = document.querySelectorAll('.key');
 
@@ -29,12 +29,11 @@ const LAYOT_RU_SHIFT = LAYOT_RU.shift.split(' ');
 const LAYOT_RU_CAPSLOCK_SHIFT = LAYOT_RU.capsLockAndShift.split(' ');
 
 let lang = localStorage.getItem('lang');
-let count = [];
 let caps = false;
 let shift = false;
 let current;
-let inner;
-DISPLEY.focus();
+let text;
+TEXTAREA.focus();
 
 // Добавить раскладку
 function addLayot(layot) {
@@ -53,13 +52,43 @@ function init() {
 init();
 
 document.addEventListener('click', () => {
-  DISPLEY.focus();
+  TEXTAREA.focus();
 });
 
 document.addEventListener('load', () => {
   console.log(lang);
   lang = localStorage.getItem('lang');
 });
+
+function insertText(textarea, txt) {
+  const textArea = textarea;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const finishText = textArea.value.substring(0, start) + txt + textArea.value.substring(end);
+  textArea.value = finishText;
+  textArea.focus();
+  textArea.selectionEnd = start === end ? end + txt.length : end;
+}
+
+function deleteText(textarea) {
+  const textArea = textarea;
+  const start = textArea.selectionStart;
+  const end = textArea.selectionEnd;
+  const finishText = textArea.value.substring(0, start) + textArea.value.substring(end + 1);
+  textArea.value = finishText;
+  textArea.focus();
+  textArea.selectionEnd = start === end ? start : end;
+}
+
+function backspaceText(textarea) {
+  const textArea = textarea;
+  const start = textArea.selectionStart;
+  const end = textArea.selectionEnd;
+  const finishText = textArea.value.substring(0, start - 1) + textArea.value.substring(end);
+  textArea.value = finishText;
+  textArea.focus();
+  textArea.selectionEnd = start !== 0 ? end - 1 : start;
+}
 
 window.addEventListener('keydown', (event) => {
   current = document.querySelector(`.press[data-key="${event.code}"]`);
@@ -73,31 +102,21 @@ window.addEventListener('keydown', (event) => {
 
 // Ввод с клавиатуры
 window.addEventListener('keydown', (event) => {
-  DISPLEY.focus();
+  TEXTAREA.focus();
   event.preventDefault();
   current = document.querySelector(`.press[data-key="${event.code}"]`);
   current.classList.add('active');
   setTimeout(() => current.classList.remove('active'), 300);
   if (event.code === 'Delete') {
-    DISPLEY.value += '';
-    count.pop();
-    DISPLEY.value = count.join('');
+    deleteText(TEXTAREA);
   } else if (event.code === 'Backspace') {
-    DISPLEY.value += '';
-    count.pop();
-    DISPLEY.value = count.join('');
+    backspaceText(TEXTAREA);
   } else if (event.code === 'Enter') {
-    DISPLEY.value += '\n';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\n');
   } else if (event.code === 'Tab') {
-    DISPLEY.value += '\t';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\t');
   } else if (event.code === 'Space') {
-    DISPLEY.value += ' ';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, ' ');
   } else if (event.code === 'CapsLock') {
     if (lang === 'en') {
       if (caps === false) {
@@ -118,18 +137,14 @@ window.addEventListener('keydown', (event) => {
       addLayot(LAYOT_RU_NORMAL);
       caps = false;
     }
-    DISPLEY.value += '';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '');
   } else if (event.key === 'Shift') {
     if (lang === 'en') {
       addLayot(LAYOT_EN_SHIFT);
     } else {
       addLayot(LAYOT_RU_SHIFT);
     }
-    DISPLEY.value += '';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\n');
     shift = true;
   } else if (event.key === 'Alt') {
     if (lang === 'en') {
@@ -157,59 +172,49 @@ window.addEventListener('keydown', (event) => {
       lang = localStorage.setItem('lang', 'ru');
       lang = 'ru';
     }
-    DISPLEY.value += '';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\n');
   } else if (event.key === 'Control') {
-    DISPLEY.value += '';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\n');
   } else if (event.code === 'MetaLeft') {
-    DISPLEY.value += '';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\n');
   } else if (lang === 'en') {
     if (caps === true) {
       if (shift === true) {
         addLayot(LAYOT_EN_CAPSLOCK_SHIFT);
-        inner = LAYOT_EN_CAPSLOCK_SHIFT[current.id];
-        DISPLEY.value += inner;
+        text = LAYOT_EN_CAPSLOCK_SHIFT[current.id];
+        insertText(TEXTAREA, text);
       } else {
         addLayot(LAYOT_EN_CAPSLOCK);
-        inner = LAYOT_EN_CAPSLOCK[current.id];
-        DISPLEY.value += inner;
+        text = LAYOT_EN_CAPSLOCK[current.id];
+        insertText(TEXTAREA, text);
       }
     } else if (shift === true) {
       addLayot(LAYOT_EN_SHIFT);
-      inner = LAYOT_EN_SHIFT[current.id];
-      DISPLEY.value += inner;
-      count = DISPLEY.value.split('');
+      text = LAYOT_EN_SHIFT[current.id];
+      insertText(TEXTAREA, text);
     } else {
       addLayot(LAYOT_EN_NORMAL);
-      inner = LAYOT_EN_NORMAL[current.id];
-      DISPLEY.value += inner;
-      count = DISPLEY.value.split('');
+      text = LAYOT_EN_NORMAL[current.id];
+      insertText(TEXTAREA, text);
     }
   } else if (caps === true) {
     if (shift === true) {
       addLayot(LAYOT_RU_CAPSLOCK_SHIFT);
-      inner = LAYOT_RU_CAPSLOCK_SHIFT[current.id];
-      DISPLEY.value += inner;
+      text = LAYOT_RU_CAPSLOCK_SHIFT[current.id];
+      insertText(TEXTAREA, text);
     } else {
       addLayot(LAYOT_RU_CAPSLOCK);
-      inner = LAYOT_RU_CAPSLOCK[current.id];
-      DISPLEY.value += inner;
+      text = LAYOT_RU_CAPSLOCK[current.id];
+      insertText(TEXTAREA, text);
     }
   } else if (shift === true) {
     addLayot(LAYOT_RU_SHIFT);
-    inner = LAYOT_RU_SHIFT[current.id];
-    DISPLEY.value += inner;
-    count = DISPLEY.value.split('');
+    text = LAYOT_RU_SHIFT[current.id];
+    insertText(TEXTAREA, text);
   } else {
     addLayot(LAYOT_RU_NORMAL);
-    inner = LAYOT_RU_NORMAL[current.id];
-    DISPLEY.value += inner;
-    count = DISPLEY.value.split('');
+    text = LAYOT_RU_NORMAL[current.id];
+    insertText(TEXTAREA, text);
   }
 });
 
@@ -227,9 +232,7 @@ document.addEventListener('keyup', (event) => {
       addLayot(LAYOT_RU_NORMAL);
     }
     shift = false;
-    DISPLEY.value += '';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '');
   }
 });
 
@@ -242,9 +245,10 @@ function pressEffect(element) {
 function pressKeysKeyboard() {
   KEYS.forEach((element) => {
     element.addEventListener('click', () => {
+      console.log(element);
       pressEffect(element);
-      DISPLEY.value += element.innerText;
-      count = DISPLEY.value.split('');
+      text = element.innerText;
+      insertText(TEXTAREA, text);
     });
   });
 }
@@ -252,52 +256,43 @@ function pressKeysKeyboard() {
 function pressKeyDeleteKeyboard() {
   KEY_DELETE.addEventListener('click', () => {
     pressEffect(KEY_DELETE);
-    count.pop();
-    DISPLEY.value = count.join('');
+    deleteText(TEXTAREA);
   });
 }
 
 function pressKeyBackspaceKeyboard() {
   KEY_BACKSPACE.addEventListener('click', () => {
     pressEffect(KEY_BACKSPACE);
-    count.pop();
-    DISPLEY.value = count.join('');
+    backspaceText(TEXTAREA);
   });
 }
 
 function pressKeyTabKeyboard() {
   KEY_TAB.addEventListener('click', () => {
     pressEffect(KEY_TAB);
-    DISPLEY.value += '\t';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\t');
   });
 }
 
 function pressKeyEnterKeyboard() {
   KEY_ENTER.addEventListener('click', () => {
     pressEffect(KEY_ENTER);
-    DISPLEY.value += '\n';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '\n');
   });
 }
 
 function pressKeySpaceKeyboard() {
   KEY_SPACE.addEventListener('click', () => {
     pressEffect(KEY_SPACE);
-    DISPLEY.value += ' ';
-    count = DISPLEY.value.split('');
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, ' ');
   });
 }
-
 
 function pressKeyControlKeyboard() {
   KEY_CONTROL.forEach((element) => {
     element.addEventListener('click', () => {
       pressEffect(element);
-      DISPLEY.value = count.join('');
+      insertText(TEXTAREA, '');
     });
   });
 }
@@ -305,17 +300,15 @@ function pressKeyControlKeyboard() {
 function pressKeyWinKeyboard() {
   KEY_WIN.addEventListener('click', () => {
     pressEffect(KEY_WIN);
-    DISPLEY.value = count.join('');
+    insertText(TEXTAREA, '');
   });
 }
-
-
 
 function pressKeyAltKeyboard() {
   KEY_ALT.forEach((element) => {
     element.addEventListener('click', () => {
       pressEffect(element);
-      DISPLEY.value = count.join('');
+      insertText(TEXTAREA, '');
     });
   });
 }
@@ -461,4 +454,3 @@ pressKeyAltKeyboard();
 pressKeyCapsKeyboard();
 pressKeyShiftKeyboard();
 pressKeyWinKeyboard();
-
