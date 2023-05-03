@@ -58,7 +58,6 @@ document.addEventListener('click', () => {
 });
 
 document.addEventListener('load', () => {
-  console.log(lang);
   lang = localStorage.getItem('lang');
 });
 
@@ -243,7 +242,6 @@ function pressEffect(element) {
 function pressKeysKeyboard() {
   KEYS.forEach((element) => {
     element.addEventListener('click', () => {
-      console.log(element);
       pressEffect(element);
       text = element.innerText;
       insertText(TEXTAREA, text);
@@ -412,7 +410,6 @@ function pressKeyShiftKeyboard() {
 function changeLanguage() {
   KEY_ALT.forEach((element) => {
     element.addEventListener('click', () => {
-      console.log(lang);
       if (lang === 'en') {
         if (shift === true) {
           if (caps === true) {
