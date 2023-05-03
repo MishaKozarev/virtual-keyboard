@@ -1,0 +1,101 @@
+.body {
+    /* background-color: rgb(234, 234, 243); */
+    background: url(./assets/Холст.jpg);
+    margin: 0;
+}
+
+.wrapper {
+    width: 750px;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.display {
+    width: 715px;
+    height: 200px;
+    margin: 0;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 23px;
+    color: rgb(51, 35, 2);
+    font-family: 'Dancing Script', cursive;
+}
+
+.keyboard {
+    width: 731px;
+    height: max-content;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgb(92, 64, 3);
+}
+.keyboard__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.text {
+    margin: 10px;
+    padding: 0
+}
+.key,
+.key-delete,
+.key-shift-right,
+.key-alt,
+.key-сontrol,
+.key-win {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: rgb(224, 217, 187);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(92, 64, 3);
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.key-double {
+    width: 94px;
+    height: 45px;
+    border-radius: 20px;
+    background-color: rgb(224, 217, 187);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(92, 64, 3);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.key-space {
+    width: 339px;
+    height: 45px;
+    border-radius: 20px;
+    background-color: rgb(224, 217, 187);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(92, 64, 3);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+@keyframes color-key {
+    from {background-color: rgb(224, 217, 187);}
+    to {background-color: yellow;}
+}
+.active {
+    animation-name: color-key;
+    animation-duration: .2s;
+}
+
+.active-all {
+    background-color: yellow;
+}
+
